@@ -1,0 +1,11 @@
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+  build:
+    cmds:
+      - go build -v .
+  start-bot:
+    cmds:
+      - go run .
