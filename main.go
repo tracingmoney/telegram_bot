@@ -5,6 +5,7 @@ import (
 	"os"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/supabase/postgrest-go"
 	"github.com/yusufpapurcu/telegram_bot/commands"
 )
 
@@ -21,7 +22,12 @@ func main() {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
-	command_hashmap := commands.GetCommands(bot)
+	client := postgrest.NewClient("http://localhost:3000", "", nil)
+	if client.ClientError != nil {
+		log.Panic(err)
+	}
+
+	command_hashmap := commands.GetCommands()
 
 	updates := bot.GetUpdatesChan(u)
 	for update := range updates {
@@ -30,7 +36,7 @@ func main() {
 		}
 
 		if handle_func, ok := command_hashmap[update.Message.Command()]; ok {
-			handle_func(update, bot)
+			handle_func(update, bot, client)
 		}
 	}
 }

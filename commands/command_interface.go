@@ -2,10 +2,11 @@ package commands
 
 import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/supabase/postgrest-go"
 )
 
-func GetCommands(bot *tgbotapi.BotAPI) map[string]func(tgbotapi.Update, *tgbotapi.BotAPI) {
-	command_hashmap := make(map[string]func(tgbotapi.Update, *tgbotapi.BotAPI))
+func GetCommands() map[string]func(tgbotapi.Update, *tgbotapi.BotAPI, *postgrest.Client) {
+	command_hashmap := make(map[string]func(tgbotapi.Update, *tgbotapi.BotAPI, *postgrest.Client))
 
 	// default implemented commands
 	command_hashmap["start"] = command_start
