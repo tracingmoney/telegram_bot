@@ -31,8 +31,8 @@ func command_expense(update tgbotapi.Update, bot *tgbotapi.BotAPI, database *pos
 	description = strings.Join(fields[3:], " ")
 	date := time.Now()
 
-	fmt.Println(database.From("expanses").Insert(map[string]interface{}{
-		"pieces":      piece,
+	fmt.Println(database.From("expense").Insert(map[string]interface{}{
+		"piece_count": piece,
 		"price":       price,
 		"description": description,
 		"date":        date,
@@ -61,7 +61,7 @@ func command_income(update tgbotapi.Update, bot *tgbotapi.BotAPI, database *post
 	description = strings.Join(fields[2:], " ")
 	date := time.Now()
 
-	database.From("").Insert(map[string]interface{}{
+	database.From("income").Insert(map[string]interface{}{
 		"income":      income,
 		"description": description,
 		"date":        date,
