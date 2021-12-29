@@ -22,7 +22,7 @@ func main() {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
-	client := postgrest.NewClient("http://localhost:3000", "", nil)
+	client := postgrest.NewClient(os.Getenv("SUPABASE_URL"), "", map[string]string{}).TokenAuth(os.Getenv("SUPABASE_PUBLIC_KEY"))
 	if client.ClientError != nil {
 		log.Panic(err)
 	}
