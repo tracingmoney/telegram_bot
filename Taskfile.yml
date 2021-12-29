@@ -1,11 +1,26 @@
 version: '3'
 
 dotenv: ['.env']
+output: prefixed
 
 tasks:
   build:
     cmds:
       - go build -v .
+
   start-bot:
     cmds:
       - go run .
+
+  start-test-db:
+    cmds:
+      - cd test/mock_postgrest && docker compose up
+
+  copy-sql-scripts:
+    cmds:
+      - docker cp test/mock_postgrest/scripts mock_postgrest-db-1:/home
+  
+  run-init-sql:
+    cmds:
+      - task: copy-sql-scripts
+      - docker exec -it mock_postgrest-db-1 psql -U app_user -d app_db -f /home/scripts/initialize.sql
